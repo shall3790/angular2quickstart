@@ -1,0 +1,16 @@
+{
+    "files.exclude": {
+		"**/.git": true,
+		"**/.DS_Store": true,
+        "node_modules/": true,
+        "bin/": true,
+        "obj/": true,
+        ".vs": true,
+        "_test-output": true,
+        "typings/": true,
+        "app/**/*.js": true,
+        "app/**/*.js.map": true,
+        ".dockerignore": true
+        
+	}
+}
