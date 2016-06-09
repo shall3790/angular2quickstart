@@ -13,7 +13,7 @@ export class BasicService {
     
 
     constructor(private _http: Http) {
-    
+        
     }
 
 
@@ -25,7 +25,10 @@ export class BasicService {
                 return <State[]>response.json();
             })
             .do(data => { })
-            .catch(this.handleError);
+            .catch((error: Response) => {
+                
+                return Observable.throw(error.json().error)
+            });
     }
     
     private handleError(error: Response) {

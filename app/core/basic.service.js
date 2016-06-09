@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
+var Observable_1 = require('rxjs/Observable');
 require('../rxjs-operators');
 var BasicService = (function () {
     function BasicService(_http) {
@@ -24,7 +25,15 @@ var BasicService = (function () {
             return response.json();
         })
             .do(function (data) { })
-            .catch(this.handleError);
+            .catch(function (error) {
+            return Observable_1.Observable.throw(error.json().error);
+        });
+    };
+    BasicService.prototype.handleError = function (error) {
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        console.error(error);
+        return Observable_1.Observable.throw(error.json().error || 'Server error');
     };
     BasicService = __decorate([
         core_1.Injectable(), 
