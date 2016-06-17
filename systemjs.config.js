@@ -9,6 +9,7 @@
   var map = {
     'app':                        'app', // 'dist',
     'rxjs':                       'node_modules/rxjs',
+    'lodash':                     'node_modules/lodash/lodash.js',
     'angular2-oauth2':            'node_modules/angular2-oauth2',
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
     '@angular':                   'node_modules/@angular'

@@ -5,22 +5,33 @@
 	<meta charset="utf-8" />
 </head>
 <body>
-    <div id="test2">Hello Test</div>
     <h2>{{pageTitle}}</h2>
-    <button class="btn btn-primary" (click)="login()">Login</button>
-    <table class="table table-hover table-condensed">
+    <!--<button class="btn btn-primary" (click)="login()">Login</button>-->
+     <div class="row">
+        <div class="col-md-8">
+            <table class="table table-hover table-condensed">
                 <thead>
                     <tr class="row bg-primary">
-                        <th sortColumn id="name" (notify)="sortAction($event)">Name</th>
-                        <th sortColumn id="abbr">Abbreviation</th>
+                        <!--<column [columnName]="'Name'" [sortDirection]="'asc'" (notify)="sortCompAction($event)"></column>-->
+                        <th sortColumn id="Number" [active]="active" (notify)="sortAction($event)">Number</th>
+                        <th sortColumn id="Id" [active]="active" (notify)="sortAction($event)">Id</th>
+                        <th sortColumn id="Name" [active]="active" (notify)="sortAction($event)">Name</th>
+                        <th sortColumn id="LegalName" [active]="active" (notify)="sortAction($event)">Legal Name</th>
+                        <th sortColumn id="SAPCompany" [active]="active" (notify)="sortAction($event)">SAP Company</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <!--TODO: need order by pipe -->
-                    <tr class="row" *ngFor="let item of states">
+                    <tr class="row" *ngFor="let item of companies">
+                        <td>{{item.Number}}</td>
+                        <td>{{item.Id}}</td>
                         <td>{{item.Name}}</td>
-                        <td>{{item.Abbreviation}}</td>
+                        <td>{{item.LegalName}}</td>
+                        <td>{{item.SAPCompany}}</td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+     </div>
 </body>
 </html>

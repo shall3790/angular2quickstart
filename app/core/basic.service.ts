@@ -4,7 +4,7 @@ import { Observable }     from 'rxjs/Observable';
 
 import '../rxjs-operators';
 
-import { State, Chain, Store } from './starship';
+import { State, Company, Chain, Store } from './starship';
 
 @Injectable()
 export class BasicService {
@@ -31,6 +31,20 @@ export class BasicService {
             });
     }
     
+    public getCompanies(): Observable<Company[]> {
+        var method = 'companies';
+
+        return this._http.get(this.STARSHIP_URL + method)
+            .map((response: Response) => {
+                return <Company[]>response.json();
+            })
+            .do(data => { })
+            .catch((error: Response) => {
+                
+                return Observable.throw(error.json().error)
+            });
+    }
+
     private handleError(error: Response) {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console

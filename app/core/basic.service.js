@@ -29,6 +29,17 @@ var BasicService = (function () {
             return Observable_1.Observable.throw(error.json().error);
         });
     };
+    BasicService.prototype.getCompanies = function () {
+        var method = 'companies';
+        return this._http.get(this.STARSHIP_URL + method)
+            .map(function (response) {
+            return response.json();
+        })
+            .do(function (data) { })
+            .catch(function (error) {
+            return Observable_1.Observable.throw(error.json().error);
+        });
+    };
     BasicService.prototype.handleError = function (error) {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console

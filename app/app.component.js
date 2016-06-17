@@ -14,22 +14,49 @@ var router_deprecated_1 = require('@angular/router-deprecated');
 var http_1 = require('@angular/http');
 var Subject_1 = require('rxjs/Subject');
 var window_service_1 = require('./core/window.service');
+var orderby_pipe_1 = require('./core/pipes/orderby.pipe');
 //import { ToolbarComponent } from './toolbar.component';
 var column_sort_directive_1 = require('./column-sort.directive');
+var column_component_1 = require('./column.component');
+var _ = require('lodash');
 var AppComponent = (function () {
     function AppComponent(window, _basicService) {
         this.window = window;
         this._basicService = _basicService;
         this.appName = 'Angular2 QuickStart';
-        this.pageTitle = 'Hello World';
+        this.pageTitle = 'Sort Directive Test';
         this.states = [];
+        this.companies = [];
+        this.sortType = '';
+        this.active = '';
+        this.sortReverse = false;
         this.searchTermStream = new Subject_1.Subject();
+        console.log('lodash version:', _.VERSION);
+        console.log('');
     }
-    AppComponent.prototype.sortAction = function () {
-        console.log('sort action fired');
+    AppComponent.prototype.sortCompAction = function (event) {
+        console.log('component sort action: ' + JSON.stringify(event));
+        if (event.sortDirection == 'asc') {
+            this.sortType = '+' + event.sortField;
+        }
+        else {
+            this.sortType = '-' + event.sortField;
+        }
+    };
+    AppComponent.prototype.sortAction = function (event) {
+        //console.log('sort action fired: '+ JSON.stringify(event));
+        this.active = event.sortField;
+        this.companies = _.orderBy(this.companies, [event.sortField], [event.sortDirection]);
+        if (event.sortDirection) {
+            this.sortType = '+' + event.sortField;
+        }
+        else {
+            this.sortType = '-' + event.sortField;
+        }
     };
     AppComponent.prototype.ngOnInit = function () {
         this.loadStates();
+        this.loadCompanies();
         // this.searchTermStream
         //     .debounceTime(300)
         //     .distinctUntilChanged()
@@ -60,6 +87,19 @@ var AppComponent = (function () {
     AppComponent.prototype.load = function () {
         console.log('load');
     };
+    AppComponent.prototype.sortGrid = function () {
+        //this.sales = _.orderBy(this.sales, [op.sortField], [op.sortDirection]); 
+    };
+    AppComponent.prototype.loadCompanies = function () {
+        var _this = this;
+        this._basicService.getCompanies()
+            .subscribe(function (data) {
+            _this.companies = data;
+        }, function (error) {
+            var errorMessage = error;
+            console.error(errorMessage);
+        });
+    };
     AppComponent.prototype.loadStates = function () {
         var _this = this;
         this._basicService.getStates()
@@ -74,8 +114,9 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
+            pipes: [orderby_pipe_1.OrderBy],
             providers: [basic_service_1.BasicService, http_1.HTTP_PROVIDERS, router_deprecated_1.ROUTER_PROVIDERS, window_service_1.WindowService],
-            directives: [column_sort_directive_1.SortColumnDirective]
+            directives: [column_sort_directive_1.SortColumnDirective, column_component_1.SortColumnComponent]
         }), 
         __metadata('design:paramtypes', [window_service_1.WindowService, basic_service_1.BasicService])
     ], AppComponent);
